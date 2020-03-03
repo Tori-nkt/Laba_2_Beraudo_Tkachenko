@@ -21,7 +21,7 @@ namespace Laba_2_budjet
             int[,] sp_budj = new int[30, 5];
             //ArrayList list_bud = new ArrayList();
             //List<Students> students = new List<Students>();
-            using (StreamReader sr = new StreamReader(path, System.Text.Encoding.Default))
+            using (StreamReader sr = new StreamReader(path))
             {
                 string line;
                 int count = 0;
