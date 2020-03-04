@@ -13,6 +13,7 @@ namespace Laba_2_budjet
             int[,] bud = Rate_bud(budj);
             double[] sr = Sredniy_bal(bud, budj);
             double[] stepend = Sort_sp(sr);
+            Write_file();
         }
         public static int n, c = 0;
 
@@ -108,6 +109,24 @@ namespace Laba_2_budjet
             
             return stependia;
         }
-        
+        static void Write_file()
+        {
+            Console.Write("Введіть назву теки для запису: ");
+            string path = Console.ReadLine();
+            try
+            {
+                // создание файла
+                using (FileStream fs = File.Create(path))
+                {
+                    byte[] info = new UTF8Encoding(true).GetBytes("Список бюджетников");
+                    // Add some information
+                    fs.Write(info, 0, info.Length);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
     }
 }
