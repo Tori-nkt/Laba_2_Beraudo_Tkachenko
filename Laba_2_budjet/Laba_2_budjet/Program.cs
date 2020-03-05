@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
-using System.Collections;
+using System.Text;
 
 namespace Laba_2_budjet
 {
@@ -12,21 +11,22 @@ namespace Laba_2_budjet
             Console.OutputEncoding = System.Text.Encoding.Unicode;
             string[] budj = GetListStudents();
             int[,] bud = Rate_bud(budj);
-            int perc = Find_Percent(40);
-            Console.WriteLine("{0} студентов получают стипендию.", perc);
             double[] sr = Sredniy_bal(bud, budj);
             //Stepuha(sr, perc, budj);
-            Write_file(stepend, sr, budj);
+            
+            double[] stepend = Sort_sp(sr);
+            
+          Write_file(stepend, sr, budj);
+
         }
         public static int n, c = 0;
 
 
         public static string[] GetListStudents()
         {
-            Console.Write("Введіть назву теки: ");
-            string path = Console.ReadLine();
-            string[] list_bud = new string[30];
-            //List<Students> students = new List<Students>();
+            Console.Write("Введіть назву теки: ");    // давайте употреблять малоизвестные слова
+            string path = Console.ReadLine();         // ну просто таааак
+            string[] list_bud = new string[30];       // простите, бомбит немножко
             using (StreamReader sr = new StreamReader(path))
             {
                 string line;
@@ -46,14 +46,14 @@ namespace Laba_2_budjet
             }
             return list_bud;
         }
-        static int[,] Rate_bud(string[] budj)
+        static int[,] Rate_bud(string[] budj)              //создаём список бюджетников
         {
             int[,] sp_budj = new int[c, 5];
             for (int i = 0; i < c; i++)
             {
                 string line = budj[i];
                 string[] temp = line.Split(",");
-                if (line.EndsWith("FALSE"))
+                if (line.EndsWith("FALSE"))    // на счёт false не уверенна, но суть не меняется
                 {
                     Console.WriteLine(line);
                     for (int j = 0; j < 5; j++)
@@ -65,7 +65,7 @@ namespace Laba_2_budjet
             }
             return sp_budj;
         }
-        static double[] Sredniy_bal(int[,] budj, string[] bud)
+        static double[] Sredniy_bal(int[,] budj, string[] bud)    //узнаём средний балл каждого бюджетника
         {
             double sum;
 
@@ -79,7 +79,7 @@ namespace Laba_2_budjet
                     sum += budj[i, j];
                 }
                 sredniy[i] = sum / 5;
-                Console.Write("{0} ", tem[0]);
+                Console.Write("{0} ", tem[0]);      // для наглядности го попринтим)
                 Console.WriteLine("{0:f3}", sredniy[i]);
             }
             return sredniy;
@@ -89,7 +89,9 @@ namespace Laba_2_budjet
             int percent = c * k / 100;
             return percent;
         }
-        static void Write_file(double[] step, double[] sred_b, string[] bud)
+ 
+        static void Write_file()
+ 
         {
             Console.Write("Введіть назву теки для запису: ");
             string path = Console.ReadLine();
@@ -107,6 +109,7 @@ namespace Laba_2_budjet
             {
                 Console.WriteLine(ex.ToString());
             }
+
             try
             {
                 using (StreamWriter sw = new StreamWriter(path))
@@ -144,6 +147,7 @@ namespace Laba_2_budjet
             {
                 Console.WriteLine(ex.ToString());
             }
+
 
         }
     }
