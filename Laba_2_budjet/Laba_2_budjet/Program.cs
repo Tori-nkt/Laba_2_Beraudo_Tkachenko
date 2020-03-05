@@ -12,8 +12,12 @@ namespace Laba_2_budjet
             string[] budj = GetListStudents();
             int[,] bud = Rate_bud(budj);
             double[] sr = Sredniy_bal(bud, budj);
+            //Stepuha(sr, perc, budj);
+            
             double[] stepend = Sort_sp(sr);
-            Write_file();
+            
+          Write_file(stepend, sr, budj);
+
         }
         public static int n, c = 0;
 
@@ -85,31 +89,9 @@ namespace Laba_2_budjet
             int percent = c * k / 100;
             return percent;
         }
-        static double[] Sort_sp(double[] sp)    //находим тех, кто получает стипендию
-        {
-            double temp;
-            for (int i = 0; i < c; i++)         // сортируем список сред. баллов
-            {
-                for (int j = i + 1; j < 5; j++)
-                {
-                    if (sp[i] > sp[j])
-                    {
-                        temp = sp[i];
-                        sp[i] = sp[j];
-                        sp[j] = temp;
-                    }
-                }
-            }                  
-            int per = Find_Percent(40);            // находим КОЛ-СТВО умников, что получают стипендию 
-            double[] stependia = new double[per];  // с помощью отсортированного списка узнаём студентов 
-            for (int i = 0; i < per; i++)          // которые получают стипендию
-            {
-                stependia[i] = sp[i];
-            }
-            
-            return stependia;
-        }
+ 
         static void Write_file()
+ 
         {
             Console.Write("Введіть назву теки для запису: ");
             string path = Console.ReadLine();
@@ -127,6 +109,46 @@ namespace Laba_2_budjet
             {
                 Console.WriteLine(ex.ToString());
             }
+
+            try
+            {
+                using (StreamWriter sw = new StreamWriter(path))
+                {
+                    int per = Find_Percent(40);
+                    for (int i = 0; i < c; i++)
+                    {
+                        sw.Write(bud[i]);
+                        sw.Write(sred_b[i]);
+                        for (int j = 0; j < per; j++)
+                        {
+                            if (sred_b[i] == step[j])
+                            {
+                                sw.Write("На стипендии");
+                                break;
+                            }
+                        }
+                        sw.WriteLine();
+                    }
+
+                }
+                using (StreamReader sr = new StreamReader(path))
+                {
+                    string line;
+                    int count = 0;
+                    while (count != c + 1)
+                    {
+                        line = sr.ReadLine();
+                        Console.WriteLine(line);
+                        count++;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+
         }
     }
 }
