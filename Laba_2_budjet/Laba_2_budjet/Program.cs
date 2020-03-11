@@ -13,8 +13,11 @@ namespace Laba_2_budjet
             string[] budj = GetListStudents();
             int[,] bud = Rate_bud(budj);
             double[] sr = Sredniy_bal(bud, budj);
+            
             double[] stepend = Sort_sp(sr);
+
             Write_file(stepend, sr, budj);
+
 
         }
         public static int n, c = 0;
@@ -124,6 +127,7 @@ namespace Laba_2_budjet
             return stependia;
         }
         static void Write_file(double[] step, double[] sred_b, string[] bud)
+ 
         {
             Console.Write("Введіть назву теки для запису: ");
             string path = Console.ReadLine();
@@ -141,6 +145,7 @@ namespace Laba_2_budjet
             {
                 Console.WriteLine(ex.ToString());
             }
+
             try
             {
                 using (StreamWriter sw = new StreamWriter(path))
@@ -148,14 +153,17 @@ namespace Laba_2_budjet
                     int per = Find_Percent(40);
                     for (int i = 0; i < c; i++)
                     {
+
                         string[] temp = (bud[i]).Split(",");
                         sw.Write(temp[0]);
                         sw.Write("  ср. балл: {0}  ", sred_b[i]);
+
                         for (int j = 0; j < per; j++)
                         {
                             if (sred_b[i] == step[j])
                             {
                                 sw.Write(" На стипендии");
+
                                 break;
                             }
                         }
@@ -178,7 +186,6 @@ namespace Laba_2_budjet
             {
                 Console.WriteLine(ex.ToString());
             }
-
         }
     }
 }
